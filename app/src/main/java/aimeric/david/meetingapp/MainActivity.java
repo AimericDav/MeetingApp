@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import aimeric.david.meetingapp.DI.DI;
+import aimeric.david.meetingapp.Dialog.CreateMeeting;
 import aimeric.david.meetingapp.service.MeetingApiService;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,11 +58,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Add Meeting
+                //TEST DIALOG ALERT
+                CreateMeeting createMeeting = new CreateMeeting();
+                createMeeting.show(getSupportFragmentManager(), "Create Meeting Fragment");
                 initList();
             }
         });
-
-
 
     }
 
