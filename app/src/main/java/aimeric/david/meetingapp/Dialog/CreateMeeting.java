@@ -44,12 +44,13 @@ public class CreateMeeting extends DialogFragment {
             @Override
             public void onClick(View view) {
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int i, int i1) {
-
                     }
-                },hour, minute, android.text.format.DateFormat.is24HourFormat(this));
+                },hour, minute, android.text.format.DateFormat.is24HourFormat(getContext()));
+                timePickerDialog.show();
+
 
             }
         });
