@@ -2,6 +2,7 @@ package aimeric.david.meetingapp.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import aimeric.david.meetingapp.Meeting;
@@ -11,10 +12,12 @@ import aimeric.david.meetingapp.Meeting;
  */
 public class DummyGeneratorMeeting {
 
+    private  static Calendar dateAndTime;
+
     public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
-            new Meeting("Réunion A", "14h00", "Salle A", "david.aimeric@outlook.fr", "07/09/2001"),
-            new Meeting("Réunion B", "17h00", "Salle B", "lour.titouan@gmail.fr", "22/12/1997"),
-            new Meeting("Réunion C", "9h00", "Salle C", "SysValerie@outlook.fr", "18/07/2001")
+            new Meeting("Réunion A","Salle A", "david.aimeric@outlook.fr", dateAndTime),
+            new Meeting("Réunion B","Salle B", "lour.titouan@gmail.fr", dateAndTime),
+            new Meeting("Réunion C","Salle C", "SysValerie@outlook.fr", dateAndTime)
     );
 
 

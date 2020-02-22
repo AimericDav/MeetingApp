@@ -1,5 +1,6 @@
 package aimeric.david.meetingapp;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -8,17 +9,16 @@ import java.util.List;
 public class Meeting {
 
     private String name;
-    private String hour;
     private String location;
     private String email;
-    private String date;
 
-    public Meeting(String name, String hour, String location, String email, String date) {
+    private Calendar dateAndTime;
+
+    public Meeting(String name, String location, String email, Calendar dateAndTime) {
         this.name = name;
-        this.hour = hour;
         this.location = location;
         this.email = email;
-        this.date = date;
+        this.dateAndTime = dateAndTime;
     }
 
     public String getName() {
@@ -27,14 +27,6 @@ public class Meeting {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getHour() {
-        return hour;
-    }
-
-    public void setHour(String hour) {
-        this.hour = hour;
     }
 
     public String getLocation() {
@@ -53,11 +45,11 @@ public class Meeting {
         this.email = email;
     }
 
-    public String getDate() {
-        return date;
+    public Calendar getDateAndTime() {
+        return dateAndTime;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDateAndTime(Calendar dateAndTime) {
+        this.dateAndTime = dateAndTime;
     }
 }
