@@ -12,12 +12,12 @@ import aimeric.david.meetingapp.Meeting;
  */
 public class DummyGeneratorMeeting {
 
-    private  static Calendar dateAndTime;
+    private static Calendar calendar = Calendar.getInstance();
 
     public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
-            new Meeting("Réunion A","Salle A", "david.aimeric@outlook.fr", dateAndTime),
-            new Meeting("Réunion B","Salle B", "lour.titouan@gmail.fr", dateAndTime),
-            new Meeting("Réunion C","Salle C", "SysValerie@outlook.fr", dateAndTime)
+            new Meeting("Réunion A","Salle A", "david.aimeric@outlook.fr", calendar),
+            new Meeting("Réunion B","Salle B", "lour.titouan@gmail.fr", calendar),
+            new Meeting("Réunion C","Salle C", "SysValerie@outlook.fr", calendar)
     );
 
 

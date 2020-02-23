@@ -1,5 +1,8 @@
 package aimeric.david.meetingapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -52,4 +55,5 @@ public class Meeting {
     public void setDateAndTime(Calendar dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
+
 }

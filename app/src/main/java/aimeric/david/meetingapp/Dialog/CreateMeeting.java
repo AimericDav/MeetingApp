@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +24,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import aimeric.david.meetingapp.DI.DI;
+import aimeric.david.meetingapp.MainActivity;
 import aimeric.david.meetingapp.Meeting;
 import aimeric.david.meetingapp.R;
+import aimeric.david.meetingapp.service.MeetingApiService;
 
 public class CreateMeeting extends DialogFragment {
 
@@ -52,6 +56,9 @@ public class CreateMeeting extends DialogFragment {
 
         final Context mContext = view.getContext();
 
+        /** ApiService */
+        final MeetingApiService apiService = DI.getMeetingApiService();
+
         /** Calendar de base, temps réel */
         Calendar calendarReal = Calendar.getInstance();
         final int hour = calendarReal.get(Calendar.HOUR_OF_DAY);
@@ -72,6 +79,9 @@ public class CreateMeeting extends DialogFragment {
         createButton = view.findViewById(R.id.create_button);
         nameEditText = view.findViewById(R.id.intitule_editText);
 
+        /** Meeting for add */
+
+
         buttonHour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +91,8 @@ public class CreateMeeting extends DialogFragment {
                     public void onTimeSet(TimePicker timePicker, int hourChoice, int minuteChoice) {
                         calendarMeeting.set(Calendar.HOUR, hourChoice);
                         calendarMeeting.set(Calendar.MINUTE, minuteChoice);
-                        DateFormat heureFormmat = new SimpleDateFormat("HH:mm");
+                        DateFormat heureFormmat = new SimpleDateFormat("HH'h'mm");
+                        // Change text hour
                         hourTextView.setText(heureFormmat.format(calendarMeeting.getTime()));
 
                     }
@@ -126,7 +137,9 @@ public class CreateMeeting extends DialogFragment {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Meeting meeting = new Meeting(nameEditText.getText().toString(), locationTextView.getText().toString(), "", calendarMeeting);
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyyHH'h'mm");
+                apiService.addMeeting(meeting);
             }
         });
 

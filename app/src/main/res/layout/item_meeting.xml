@@ -18,62 +18,17 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/name_meeting"
+                android:id="@+id/nameHourLocation_meeting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/archivo_black"
-                android:text="Réunion A"
+                android:text="Réunion A - 14H -  Salle A"
                 android:textColor="#696969"
                 android:textSize="17sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/separator1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/separator"
-                app:layout_constraintLeft_toRightOf="@id/name_meeting"
-                app:layout_constraintTop_toTopOf="@+id/name_meeting"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                />
-
-            <TextView
-                android:id="@+id/hour_meeting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="14h00"
-                android:textSize="17sp"
-                android:fontFamily="@font/archivo_black"
-                android:textColor="#696969"
-                android:layout_marginLeft="5dp"
-                app:layout_constraintTop_toTopOf="@id/name_meeting"
-                app:layout_constraintLeft_toRightOf="@id/separator1" />
-
-            <ImageView
-                android:id="@+id/separator2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/separator"
-                app:layout_constraintLeft_toRightOf="@id/hour_meeting"
-                app:layout_constraintTop_toTopOf="@id/separator1"
-                android:layout_marginLeft="5dp"
-                />
-
-            <TextView
-                android:id="@+id/location_meeting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Salle A"
-                android:textSize="17sp"
-                android:fontFamily="@font/archivo_black"
-                android:textColor="#696969"
-                android:layout_marginLeft="5dp"
-                app:layout_constraintTop_toTopOf="@id/name_meeting"
-                app:layout_constraintLeft_toRightOf="@id/separator2" />
 
             <TextView
                 android:id="@+id/email_meeting"
@@ -83,8 +38,8 @@
                 android:textSize="14sp"
                 android:text="david.aimeric@outlook.fr"
                 android:layout_marginBottom="100dp"
-                app:layout_constraintLeft_toLeftOf="@id/name_meeting"
-                app:layout_constraintTop_toBottomOf="@id/name_meeting" />
+                app:layout_constraintLeft_toLeftOf="@id/nameHourLocation_meeting"
+                app:layout_constraintTop_toBottomOf="@id/nameHourLocation_meeting" />
 
             <TextView
                 android:id="@+id/date_meeting"
@@ -95,7 +50,7 @@
                 android:text="07/09/2001"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginRight="75dp"
-                app:layout_constraintTop_toBottomOf="@id/name_meeting" />
+                app:layout_constraintTop_toBottomOf="@id/nameHourLocation_meeting" />
 
             <ImageView
                 android:id="@+id/trash"

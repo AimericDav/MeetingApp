@@ -61,16 +61,12 @@ public class MainActivity extends AppCompatActivity {
                 //TEST DIALOG ALERT
                 CreateMeeting createMeeting = new CreateMeeting();
                 createMeeting.show(getSupportFragmentManager(), "Create Meeting Fragment");
-                initList();
+
             }
         });
 
     }
-
     private void initList() {
         mMeetingList = mMeetingApiService.getMeetings();
     }
-
-
-
 }

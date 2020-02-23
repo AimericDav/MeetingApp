@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -20,16 +23,12 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingV
     List<Meeting> mMeetingList;
 
     public static class MeetingViewHolder extends RecyclerView.ViewHolder{
-        TextView name;
-        TextView hour;
-        TextView location;
+        TextView nameHourLocation;
         TextView email;
         TextView date;
         public MeetingViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.name_meeting);
-            hour = itemView.findViewById(R.id.hour_meeting);
-            location = itemView.findViewById(R.id.location_meeting);
+            nameHourLocation = itemView.findViewById(R.id.nameHourLocation_meeting);
             email = itemView.findViewById(R.id.email_meeting);
             date = itemView.findViewById(R.id.date_meeting);
         }
@@ -49,8 +48,9 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingV
     @Override
     public void onBindViewHolder(@NonNull MeetingViewHolder holder, int position) {
         Meeting mMeeting = mMeetingList.get(position);
-        holder.name.setText(mMeeting.getName());
-        holder.location.setText(mMeeting.getLocation());
+        Calendar mCalendar = Calendar.getInstance();
+        DateFormat formatHour = new SimpleDateFormat("HH'h'mm");
+        holder.nameHourLocation.setText(mMeeting.getName() + " - " + formatHour.format(mMeeting.getDateAndTime().getTime()) + " - " + mMeeting.getLocation());
         holder.email.setText(mMeeting.getEmail());
 
     }

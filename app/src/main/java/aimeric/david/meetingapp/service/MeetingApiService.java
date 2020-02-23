@@ -11,4 +11,6 @@ public interface MeetingApiService {
 
     List<Meeting> getMeetings();
 
+    void addMeeting(Meeting meeting);
+
 }
