@@ -17,7 +17,7 @@ import aimeric.david.meetingapp.DI.DI;
 import aimeric.david.meetingapp.Dialog.CreateMeeting;
 import aimeric.david.meetingapp.service.MeetingApiService;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CreateMeeting.OnButtonClickedListener {
 
     private MeetingApiService mMeetingApiService;
 
@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         /** Initier ApiService */
         mMeetingApiService = DI.getMeetingApiService();
         mMeetingList = mMeetingApiService.getMeetings();
+        mMeetingList.get(0).getEmail().add("david.aimeric@outlook.fr");
+        mMeetingList.get(0).getEmail().add("marie.dore18072001@gmail.com");
 
         /** Initier RecyclerView */
         mRecyclerView = findViewById(R.id.meeting_recyclerview);
@@ -61,12 +63,16 @@ public class MainActivity extends AppCompatActivity {
                 //TEST DIALOG ALERT
                 CreateMeeting createMeeting = new CreateMeeting();
                 createMeeting.show(getSupportFragmentManager(), "Create Meeting Fragment");
-
             }
         });
 
     }
     private void initList() {
         mMeetingList = mMeetingApiService.getMeetings();
+    }
+
+    @Override
+    public void onButtonClicked(View view) {
+        initList();
     }
 }

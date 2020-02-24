@@ -48,10 +48,9 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingV
     @Override
     public void onBindViewHolder(@NonNull MeetingViewHolder holder, int position) {
         Meeting mMeeting = mMeetingList.get(position);
-        Calendar mCalendar = Calendar.getInstance();
         DateFormat formatHour = new SimpleDateFormat("HH'h'mm");
         holder.nameHourLocation.setText(mMeeting.getName() + " - " + formatHour.format(mMeeting.getDateAndTime().getTime()) + " - " + mMeeting.getLocation());
-        holder.email.setText(mMeeting.getEmail());
+        holder.email.setText(mMeeting.getEmail().toString());
 
     }
 

@@ -20,9 +20,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import aimeric.david.meetingapp.DI.DI;
 import aimeric.david.meetingapp.MainActivity;
@@ -30,7 +33,7 @@ import aimeric.david.meetingapp.Meeting;
 import aimeric.david.meetingapp.R;
 import aimeric.david.meetingapp.service.MeetingApiService;
 
-public class CreateMeeting extends DialogFragment {
+public class CreateMeeting extends DialogFragment implements View.OnClickListener {
 
     private Button buttonHour;
     private TextView hourTextView;
@@ -45,7 +48,17 @@ public class CreateMeeting extends DialogFragment {
 
     private EditText nameEditText;
 
+    /** ApiService */
+    final MeetingApiService apiService = DI.getMeetingApiService();
 
+    /** Calendar return Meeting */
+    final Calendar calendarMeeting = Calendar.getInstance();
+
+    private OnButtonClickedListener mCallback;
+
+    public interface OnButtonClickedListener {
+        void onButtonClicked(View view);
+    }
 
     @Nullable
     @Override
@@ -56,8 +69,6 @@ public class CreateMeeting extends DialogFragment {
 
         final Context mContext = view.getContext();
 
-        /** ApiService */
-        final MeetingApiService apiService = DI.getMeetingApiService();
 
         /** Calendar de base, temps réel */
         Calendar calendarReal = Calendar.getInstance();
@@ -66,9 +77,6 @@ public class CreateMeeting extends DialogFragment {
         final int year = calendarReal.get(Calendar.YEAR);
         final int month = calendarReal.get(Calendar.MONTH);
         final int day = calendarReal.get(Calendar.DAY_OF_MONTH);
-
-        /** Calendar return Meeting */
-        final Calendar calendarMeeting = Calendar.getInstance();
 
         buttonHour = view.findViewById(R.id.heure_button);
         hourTextView = view.findViewById(R.id.heure_minute_text);
@@ -134,15 +142,36 @@ public class CreateMeeting extends DialogFragment {
             }
         });
 
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Meeting meeting = new Meeting(nameEditText.getText().toString(), locationTextView.getText().toString(), "", calendarMeeting);
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyyHH'h'mm");
-                apiService.addMeeting(meeting);
-            }
-        });
+        createButton.setOnClickListener(this);
 
         return view;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // 4 - Call the method that creating callback after being attached to parent activity
+        this.createCallbackToParentActivity();
+    }
+
+    private void createCallbackToParentActivity(){
+        try {
+            //Parent activity will automatically subscribe to callback
+            mCallback = (OnButtonClickedListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(e.toString()+ " must implement OnButtonClickedListener");
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        List<String> email = new ArrayList<>();
+        Meeting meeting = new Meeting(nameEditText.getText().toString(), locationTextView.getText().toString(), email , calendarMeeting);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyyHH'h'mm");
+        apiService.addMeeting(meeting);
+        mCallback.onButtonClicked(v);
+        dismiss();
+    }
+
 }

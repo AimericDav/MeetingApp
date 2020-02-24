@@ -13,11 +13,11 @@ public class Meeting {
 
     private String name;
     private String location;
-    private String email;
+    private List<String> email;
 
     private Calendar dateAndTime;
 
-    public Meeting(String name, String location, String email, Calendar dateAndTime) {
+    public Meeting(String name, String location, List<String> email, Calendar dateAndTime) {
         this.name = name;
         this.location = location;
         this.email = email;
@@ -40,11 +40,11 @@ public class Meeting {
         this.location = location;
     }
 
-    public String getEmail() {
+    public List<String> getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(List<String> email) {
         this.email = email;
     }
 
