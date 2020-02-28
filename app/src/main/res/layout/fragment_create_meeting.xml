@@ -3,127 +3,188 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_width="360dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="360dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="8dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginHorizontal="10dp">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/intitule_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_intitule_24dp"/>
             <EditText
                 android:id="@+id/intitule_editText"
-                android:layout_width="match_parent"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
                 android:hint="Intitulé"
-                android:backgroundTint="@android:color/transparent"
-                android:lines="1"
-                android:maxLength="14"
-                app:layout_constraintLeft_toLeftOf="parent"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/intitule_editText"
-                app:layout_constraintLeft_toLeftOf="@id/intitule_editText"
-                android:src="@drawable/divider"/>
-
-            <Button
-                android:id="@+id/heure_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
+                app:layout_constraintTop_toTopOf="parent"
                 android:background="@android:color/transparent"
-                android:textSize="15dp"
-                app:layout_constraintTop_toBottomOf="@id/intitule_editText"
-                android:layout_marginTop="8dp"
-                android:hint="Heure" />
-
-            <TextView
-                android:id="@+id/heure_minute_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="80dp"
-                android:layout_marginBottom="15dp"
-                app:layout_constraintBottom_toBottomOf="@id/heure_button"
-                android:text="18H53"/>
+                app:layout_constraintBottom_toBottomOf="@id/intitule_logo"
+                app:layout_constraintLeft_toRightOf="@id/intitule_logo"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/heure_button"
-                app:layout_constraintLeft_toLeftOf="@id/heure_button"
-                android:src="@drawable/divider"/>
-
-            <Button
-                android:id="@+id/date_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
-                android:background="@android:color/transparent"
-                android:textSize="15dp"
-                app:layout_constraintTop_toBottomOf="@id/heure_minute_text"
-                android:layout_marginTop="20dp"
-                android:hint="Date" />
-
-            <TextView
-                android:id="@+id/date_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="60dp"
-                android:layout_marginBottom="15dp"
-                app:layout_constraintBottom_toBottomOf="@id/date_button"
-                android:text="07/09/2001"/>
+                app:layout_constraintLeft_toLeftOf="@id/intitule_logo"
+                app:layout_constraintTop_toBottomOf="@id/intitule_logo"
+                android:layout_marginTop="9dp"
+                android:src="@drawable/separator"/>
 
             <ImageView
+                android:id="@+id/location_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/date_button"
-                app:layout_constraintLeft_toLeftOf="@id/date_button"
-                android:src="@drawable/divider"/>
+                app:layout_constraintLeft_toLeftOf="@id/intitule_logo"
+                app:layout_constraintTop_toTopOf="@id/intitule_logo"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/ic_location_24dp"/>
 
             <Button
                 android:id="@+id/location_button"
-                android:layout_width="match_parent"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
+                android:hint="Salle A"
+                android:textSize="17dp"
                 android:background="@android:color/transparent"
-                android:textSize="15dp"
-                app:layout_constraintTop_toBottomOf="@id/date_text"
-                android:layout_marginTop="20dp"
-                android:hint="Location" />
+                app:layout_constraintTop_toTopOf="@id/location_logo"
+                app:layout_constraintBottom_toBottomOf="@id/location_logo"
+                app:layout_constraintLeft_toRightOf="@id/location_logo"
+                android:layout_marginLeft="10dp"/>
 
-            <TextView
-                android:id="@+id/location_text"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="80dp"
-                android:layout_marginBottom="15dp"
-                app:layout_constraintBottom_toBottomOf="@id/location_button"
-                android:text="Salle A"/>
+                app:layout_constraintLeft_toLeftOf="@id/location_logo"
+                app:layout_constraintTop_toBottomOf="@id/location_logo"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/separator"/>
+
+            <ImageView
+                android:id="@+id/participant_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/location_logo"
+                app:layout_constraintTop_toTopOf="@id/location_logo"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/ic_participant__24dp"/>
+
+            <EditText
+                android:id="@+id/participant_editText"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:hint="Participants"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="@id/participant_logo"
+                app:layout_constraintBottom_toBottomOf="@id/participant_logo"
+                app:layout_constraintLeft_toRightOf="@id/participant_logo"
+                android:layout_marginLeft="10dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/participant_logo"
+                app:layout_constraintTop_toBottomOf="@id/participant_logo"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/separator"/>
+
+            <ImageView
+                android:id="@+id/add_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_circle_black_24dp"
+                app:layout_constraintLeft_toRightOf="@id/participant_editText"
+                app:layout_constraintTop_toTopOf="@id/participant_logo"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                />
+
+            <ImageView
+                android:id="@+id/date_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/participant_logo"
+                app:layout_constraintTop_toTopOf="@id/participant_logo"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/ic_date_range_black_24dp"/>
+
+            <Button
+                android:id="@+id/date_button"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:hint="18/07/2001"
+                android:textSize="17dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="@id/date_logo"
+                app:layout_constraintBottom_toBottomOf="@id/date_logo"
+                app:layout_constraintLeft_toRightOf="@id/date_logo"
+                android:layout_marginLeft="10dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/date_logo"
+                app:layout_constraintTop_toBottomOf="@id/date_logo"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/separator"/>
+
+            <ImageView
+                android:id="@+id/hour_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/date_logo"
+                app:layout_constraintTop_toTopOf="@id/date_logo"
+                android:layout_marginTop="52dp"
+                android:src="@drawable/ic_hourglass_empty_black_24dp"/>
+
+            <Button
+                android:id="@+id/heure_button"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:hint="18H00"
+                android:textSize="17dp"
+                app:layout_constraintTop_toTopOf="@id/hour_logo"
+                app:layout_constraintBottom_toBottomOf="@id/hour_logo"
+                app:layout_constraintLeft_toRightOf="@id/hour_logo"
+                android:background="@android:color/transparent"
+                android:layout_marginLeft="10dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/hour_logo"
+                app:layout_constraintTop_toBottomOf="@id/hour_logo"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/separator"/>
 
             <Button
                 android:id="@+id/create_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/location_button"
-                app:layout_constraintLeft_toLeftOf="@id/location_text"
-                android:layout_marginTop="80dp"
-                android:layout_marginLeft="20dp"
-                android:padding="20dp"
-                android:textSize="30sp"
-                android:hint="Create !" />
-
+                android:text="Temporaire"
+                app:layout_constraintLeft_toLeftOf="@id/heure_button"
+                app:layout_constraintTop_toBottomOf="@id/heure_button"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="50dp"
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

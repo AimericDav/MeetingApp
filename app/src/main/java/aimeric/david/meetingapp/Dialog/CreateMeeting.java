@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -36,17 +37,18 @@ import aimeric.david.meetingapp.service.MeetingApiService;
 public class CreateMeeting extends DialogFragment implements View.OnClickListener {
 
     private Button buttonHour;
-    private TextView hourTextView;
 
     private Button buttonDate;
-    private TextView dateTextView;
 
     private Button buttonLocation;
-    private TextView locationTextView;
 
     private Button createButton;
 
     private EditText nameEditText;
+
+    private ImageView emailAddButton;
+
+    private EditText emailEditText;
 
     /** ApiService */
     final MeetingApiService apiService = DI.getMeetingApiService();
@@ -79,13 +81,21 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
         final int day = calendarReal.get(Calendar.DAY_OF_MONTH);
 
         buttonHour = view.findViewById(R.id.heure_button);
-        hourTextView = view.findViewById(R.id.heure_minute_text);
         buttonDate = view.findViewById(R.id.date_button);
-        dateTextView = view.findViewById(R.id.date_text);
         buttonLocation = view.findViewById(R.id.location_button);
-        locationTextView = view.findViewById(R.id.location_text);
         createButton = view.findViewById(R.id.create_button);
         nameEditText = view.findViewById(R.id.intitule_editText);
+        emailEditText = view.findViewById(R.id.email_meeting);
+        emailAddButton = view.findViewById(R.id.add_email);
+
+        /** Hour Format */
+        final DateFormat heureFormat = new SimpleDateFormat("HH'h'mm");
+        final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        /** Init good text on Button */
+        buttonHour.setHint(heureFormat.format(calendarReal.getTime()));
+        buttonDate.setHint(dateFormat.format(calendarReal.getTime()));
+
 
         /** Meeting for add */
 
@@ -99,9 +109,8 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
                     public void onTimeSet(TimePicker timePicker, int hourChoice, int minuteChoice) {
                         calendarMeeting.set(Calendar.HOUR, hourChoice);
                         calendarMeeting.set(Calendar.MINUTE, minuteChoice);
-                        DateFormat heureFormmat = new SimpleDateFormat("HH'h'mm");
                         // Change text hour
-                        hourTextView.setText(heureFormmat.format(calendarMeeting.getTime()));
+                        buttonHour.setHint(heureFormat.format(calendarMeeting.getTime()));
 
                     }
                 },hour, minute, android.text.format.DateFormat.is24HourFormat(mContext));
@@ -117,8 +126,7 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {
                         calendarMeeting.set(year, monthOfyear, dayOfMonth);
-                        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        dateTextView.setText(dateFormat.format(calendarMeeting.getTime()));
+                        buttonDate.setHint(dateFormat.format(calendarMeeting.getTime()));
                  }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -134,13 +142,21 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
                 builder.setTitle("Pick your location")
                         .setItems(items, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                locationTextView.setText(items[which]);
+                                buttonLocation.setHint(items[which]);
                             }
                         });
                 builder.show();
 
             }
         });
+
+        emailAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
 
         createButton.setOnClickListener(this);
 
@@ -167,7 +183,7 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         List<String> email = new ArrayList<>();
-        Meeting meeting = new Meeting(nameEditText.getText().toString(), locationTextView.getText().toString(), email , calendarMeeting);
+        Meeting meeting = new Meeting(nameEditText.getText().toString(), buttonLocation.getHint().toString(), email , calendarMeeting);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyyHH'h'mm");
         apiService.addMeeting(meeting);
         mCallback.onButtonClicked(v);

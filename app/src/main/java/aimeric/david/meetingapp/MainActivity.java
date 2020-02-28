@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -16,6 +17,7 @@ import java.util.List;
 import aimeric.david.meetingapp.DI.DI;
 import aimeric.david.meetingapp.Dialog.CreateMeeting;
 import aimeric.david.meetingapp.service.MeetingApiService;
+import de.greenrobot.event.EventBus;
 
 public class MainActivity extends AppCompatActivity implements CreateMeeting.OnButtonClickedListener {
 
@@ -49,30 +51,24 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
         mMeetingAdapter = new MeetingAdapter(mMeetingList);
         mRecyclerView.setAdapter(mMeetingAdapter);
 
-        /** Test setFont */
-
-
-        /** Initier FAB  */
+        /** Initier XML  */
         addButton = findViewById(R.id.add_button);
 
         /** OnClick FAB */
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Add Meeting
-                //TEST DIALOG ALERT
                 CreateMeeting createMeeting = new CreateMeeting();
                 createMeeting.show(getSupportFragmentManager(), "Create Meeting Fragment");
             }
         });
 
     }
-    private void initList() {
-        mMeetingList = mMeetingApiService.getMeetings();
-    }
 
     @Override
     public void onButtonClicked(View view) {
-        initList();
+        //Notify the adapter for refresh the list
+        mMeetingAdapter.notifyDataSetChanged();
     }
+
 }

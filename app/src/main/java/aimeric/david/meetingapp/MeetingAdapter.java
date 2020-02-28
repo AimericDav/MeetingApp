@@ -1,10 +1,12 @@
 package aimeric.david.meetingapp;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,22 +17,29 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import aimeric.david.meetingapp.DI.DI;
+import aimeric.david.meetingapp.service.MeetingApiService;
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Aimeric on 14/02/2020.
  */
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingViewHolder>{
 
     List<Meeting> mMeetingList;
+    MeetingApiService mApiService = DI.getMeetingApiService();
 
     public static class MeetingViewHolder extends RecyclerView.ViewHolder{
         TextView nameHourLocation;
         TextView email;
         TextView date;
+        ImageView trash;
         public MeetingViewHolder(@NonNull View itemView) {
             super(itemView);
             nameHourLocation = itemView.findViewById(R.id.nameHourLocation_meeting);
             email = itemView.findViewById(R.id.email_meeting);
             date = itemView.findViewById(R.id.date_meeting);
+            trash = itemView.findViewById(R.id.trash);
         }
     }
 
@@ -46,12 +55,19 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MeetingViewHolder holder, int position) {
-        Meeting mMeeting = mMeetingList.get(position);
+    public void onBindViewHolder(@NonNull final MeetingViewHolder holder, final int position) {
+        final Meeting mMeeting = mMeetingList.get(position);
         DateFormat formatHour = new SimpleDateFormat("HH'h'mm");
         holder.nameHourLocation.setText(mMeeting.getName() + " - " + formatHour.format(mMeeting.getDateAndTime().getTime()) + " - " + mMeeting.getLocation());
+        final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        holder.date.setText(dateFormat.format(mMeeting.getDateAndTime().getTime()));
         holder.email.setText(mMeeting.getEmail().toString());
+        holder.trash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
     }
 
     @Override
