@@ -24,10 +24,17 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Aimeric on 14/02/2020.
  */
-public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingViewHolder>{
+public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingViewHolder> implements View.OnClickListener{
 
     List<Meeting> mMeetingList;
     MeetingApiService mApiService = DI.getMeetingApiService();
+
+    Meeting mMeeting;
+
+    Listener callback;
+    public interface Listener {
+        void onClickDelete(Meeting meeting);
+    }
 
     public static class MeetingViewHolder extends RecyclerView.ViewHolder{
         TextView nameHourLocation;
@@ -56,23 +63,24 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingV
 
     @Override
     public void onBindViewHolder(@NonNull final MeetingViewHolder holder, final int position) {
-        final Meeting mMeeting = mMeetingList.get(position);
+        mMeeting = mMeetingList.get(position);
         DateFormat formatHour = new SimpleDateFormat("HH'h'mm");
         holder.nameHourLocation.setText(mMeeting.getName() + " - " + formatHour.format(mMeeting.getDateAndTime().getTime()) + " - " + mMeeting.getLocation());
         final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         holder.date.setText(dateFormat.format(mMeeting.getDateAndTime().getTime()));
         holder.email.setText(mMeeting.getEmail().toString());
-        holder.trash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        holder.trash.setOnClickListener(this);
     }
 
     @Override
     public int getItemCount() {
         return mMeetingList.size();
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        callback.onClickDelete(mMeeting);
     }
 
 }

@@ -19,7 +19,7 @@ import aimeric.david.meetingapp.Dialog.CreateMeeting;
 import aimeric.david.meetingapp.service.MeetingApiService;
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends AppCompatActivity implements CreateMeeting.OnButtonClickedListener {
+public class MainActivity extends AppCompatActivity implements CreateMeeting.OnButtonClickedListener, MeetingAdapter.Listener {
 
     private MeetingApiService mMeetingApiService;
 
@@ -71,4 +71,10 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
         mMeetingAdapter.notifyDataSetChanged();
     }
 
+
+    @Override
+    public void onClickDelete(Meeting meeting) {
+        mMeetingApiService.deleteMeeting(meeting);
+        mMeetingAdapter.notifyDataSetChanged();
+    }
 }
