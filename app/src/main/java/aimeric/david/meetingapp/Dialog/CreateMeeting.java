@@ -47,7 +47,6 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
     private EditText nameEditText;
 
     private ImageView emailAddButton;
-
     private EditText emailEditText;
 
     /** ApiService */
@@ -55,6 +54,9 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
 
     /** Calendar return Meeting */
     final Calendar calendarMeeting = Calendar.getInstance();
+
+    /** List to add Email */
+    private List<String> emailList = new ArrayList<>();
 
     private OnButtonClickedListener mCallback;
 
@@ -67,7 +69,7 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_create_meeting, container, false);
+        final View view = inflater.inflate(R.layout.fragment_create_meeting, container, false);
 
         final Context mContext = view.getContext();
 
@@ -85,8 +87,10 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
         buttonLocation = view.findViewById(R.id.location_button);
         createButton = view.findViewById(R.id.create_button);
         nameEditText = view.findViewById(R.id.intitule_editText);
-        emailEditText = view.findViewById(R.id.email_meeting);
+        emailEditText = view.findViewById(R.id.participant_editText);
         emailAddButton = view.findViewById(R.id.add_email);
+
+
 
         /** Hour Format */
         final DateFormat heureFormat = new SimpleDateFormat("HH'h'mm");
@@ -153,7 +157,11 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
         emailAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String emailCurrent = emailEditText.getText().toString();
+                if(emailCurrent != null && emailCurrent != "" && emailCurrent.contains("@")){
+                    emailList.add(emailEditText.getText().toString());
+                    emailEditText.getText().clear();
+                }
             }
         });
 
@@ -166,7 +174,6 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         // 4 - Call the method that creating callback after being attached to parent activity
         this.createCallbackToParentActivity();
     }
@@ -177,14 +184,14 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
             mCallback = (OnButtonClickedListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(e.toString()+ " must implement OnButtonClickedListener");
+
+
         }
     }
 
     @Override
     public void onClick(View v) {
-        List<String> email = new ArrayList<>();
-        Meeting meeting = new Meeting(nameEditText.getText().toString(), buttonLocation.getHint().toString(), email , calendarMeeting);
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyyHH'h'mm");
+        Meeting meeting = new Meeting(nameEditText.getText().toString(), buttonLocation.getHint().toString(), emailList , calendarMeeting);
         apiService.addMeeting(meeting);
         mCallback.onButtonClicked(v);
         dismiss();
