@@ -1,11 +1,14 @@
 package aimeric.david.meetingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        configureToolbar();
 
         /** Initier ApiService */
         mMeetingApiService = DI.getMeetingApiService();
@@ -77,4 +82,38 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
         mMeetingApiService.deleteMeeting(meeting);
         mMeetingAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //2 - Inflate the menu and add it to the Toolbar
+        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+        return true;
+    }
+
+    private void configureToolbar(){
+        // Get the toolbar view inside the activity layout
+        Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
+        // Sets the Toolbar
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //3 - Handle actions on menu items
+        switch (item.getItemId()) {
+            case R.id.menu_activity_main_params:
+                //Action
+                return true;
+            case R.id.menu_debut:
+                //Action
+                return true;
+            case R.id.menu_fin:
+                //Action
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 }
