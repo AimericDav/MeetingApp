@@ -5,19 +5,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.DatePickerDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Calendar;
 import java.util.List;
 
 import aimeric.david.meetingapp.DI.DI;
@@ -106,12 +103,13 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
         switch (item.getItemId()) {
             case R.id.menu_activity_main_params:
                 //Action
+                return true;
             case R.id.menu_debut:
-
+                //Action
+                return true;
             case R.id.menu_fin:
                 //Action
-            case R.id.menu_init:
-                //Action
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

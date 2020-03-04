@@ -16,4 +16,7 @@ public interface MeetingApiService {
 
     void deleteMeeting(Meeting meeting);
 
+    List<Meeting> getDisplayMeetingWithDate(Calendar calendarStart, Calendar calendarEnd);
+
+
 }

@@ -24,7 +24,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Aimeric on 14/02/2020.
  */
-public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingViewHolder> implements View.OnClickListener{
+public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingViewHolder>{
 
     List<Meeting> mMeetingList;
     MeetingApiService mApiService = DI.getMeetingApiService();
@@ -50,8 +50,9 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingV
         }
     }
 
-    public MeetingAdapter(List<Meeting> meetingList) {
+    public MeetingAdapter(List<Meeting> meetingList, Listener callback) {
         this.mMeetingList = meetingList;
+        this.callback = callback;
     }
 
     @Override
@@ -69,18 +70,17 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingV
         final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         holder.date.setText(dateFormat.format(mMeeting.getDateAndTime().getTime()));
         holder.email.setText(mMeeting.getEmail().toString());
-        holder.trash.setOnClickListener(this);
+        holder.trash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.onClickDelete(mMeetingList.get(position));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mMeetingList.size();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        callback.onClickDelete(mMeeting);
     }
 
 }
