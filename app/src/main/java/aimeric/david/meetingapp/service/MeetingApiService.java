@@ -1,5 +1,6 @@
 package aimeric.david.meetingapp.service;
 
+import java.util.Calendar;
 import java.util.List;
 
 import aimeric.david.meetingapp.Meeting;

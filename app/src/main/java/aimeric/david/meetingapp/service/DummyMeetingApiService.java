@@ -1,5 +1,7 @@
 package aimeric.david.meetingapp.service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -24,6 +26,5 @@ public class DummyMeetingApiService implements MeetingApiService {
     public void deleteMeeting(Meeting meeting) {
         meetings.remove(meeting);
     }
-
 
 }

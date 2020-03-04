@@ -20,6 +20,12 @@
                 android:title="Fin"
                 />
 
+            <item
+                android:id="@+id/menu_init"
+                app:showAsAction="never"
+                android:title="Réinitialiser"
+                />
+
         </menu>
     </item>
 
