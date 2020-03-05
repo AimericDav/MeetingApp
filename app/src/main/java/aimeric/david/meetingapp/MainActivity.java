@@ -5,16 +5,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Calendar;
 import java.util.List;
 
 import aimeric.david.meetingapp.DI.DI;
@@ -36,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
     /** MainActivity XML */
     private FloatingActionButton addButton;
 
+    /** Calendar */
+    Calendar calendarStart = Calendar.getInstance();
+    Calendar calendarEnd = Calendar.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
         mRecyclerView = findViewById(R.id.meeting_recyclerview);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mMeetingAdapter = new MeetingAdapter(mMeetingList);
+        mMeetingAdapter = new MeetingAdapter(mMeetingList, this);
         mRecyclerView.setAdapter(mMeetingAdapter);
 
         /** Initier XML  */
@@ -105,14 +112,34 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
                 //Action
                 return true;
             case R.id.menu_debut:
-                //Action
+                createDatePicker(calendarStart);
+                mMeetingList = mMeetingApiService.getDisplayMeetingWithDate(calendarStart, calendarEnd);
+                mMeetingAdapter.notifyDataSetChanged();
                 return true;
             case R.id.menu_fin:
-                //Action
+                createDatePicker(calendarEnd);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public Calendar createDatePicker(final Calendar calendar){
+
+        Calendar baseCalendar = Calendar.getInstance();
+        final int year = baseCalendar.get(Calendar.YEAR);
+        final int month = baseCalendar.get(Calendar.MONTH);
+        final int day = baseCalendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {
+                calendar.set(year, monthOfyear, dayOfMonth);
+            }
+        }, year, month, day);
+
+        datePickerDialog.show();
+        return calendar;
     }
 
 
