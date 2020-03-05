@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
                 calendar.set(year, monthOfyear, dayOfMonth);
             }
         }, year, month, day);
+
         datePickerDialog.show();
         return calendar;
     }
