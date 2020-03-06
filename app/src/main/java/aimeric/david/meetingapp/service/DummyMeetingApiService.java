@@ -17,7 +17,7 @@ public class DummyMeetingApiService implements MeetingApiService {
 
     @Override
     public List<Meeting> getMeetings() {
-        return meetings;
+        return new ArrayList<>(meetings);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class DummyMeetingApiService implements MeetingApiService {
     public List<Meeting> getDisplayMeetingWithDate(Calendar calendarStart, Calendar calendarEnd) {
         List<Meeting> meetingListTemp = new ArrayList<>();
         for(Meeting meeting : meetings){
-            if(meeting.getDateAndTime().after(calendarStart) && meeting.getDateAndTime().before(calendarEnd)){
+            if(meeting.getDateAndTime().getTimeInMillis() >= calendarStart.getTimeInMillis() && meeting.getDateAndTime().getTimeInMillis() <= calendarEnd.getTimeInMillis()){
                 meetingListTemp.add(meeting);
             }
         }

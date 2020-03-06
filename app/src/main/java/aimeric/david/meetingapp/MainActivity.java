@@ -43,12 +43,17 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
     Calendar calendarStart = Calendar.getInstance();
     Calendar calendarEnd = Calendar.getInstance();
 
+    final int START = 0;
+    final int END = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         configureToolbar();
+
+        calendarEnd.add(Calendar.YEAR, 1);
 
         /** Initier ApiService */
         mMeetingApiService = DI.getMeetingApiService();
@@ -87,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
     @Override
     public void onClickDelete(Meeting meeting) {
         mMeetingApiService.deleteMeeting(meeting);
+        mMeetingList.clear();
+        mMeetingList.addAll(mMeetingApiService.getMeetings());
         mMeetingAdapter.notifyDataSetChanged();
     }
 
@@ -112,19 +119,17 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
                 //Action
                 return true;
             case R.id.menu_debut:
-                createDatePicker(calendarStart);
-                mMeetingList = mMeetingApiService.getDisplayMeetingWithDate(calendarStart, calendarEnd);
-                mMeetingAdapter.notifyDataSetChanged();
+                createDatePicker(START);
                 return true;
             case R.id.menu_fin:
-                createDatePicker(calendarEnd);
+                createDatePicker(END);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public Calendar createDatePicker(final Calendar calendar){
+    public void createDatePicker(final int val){
 
         Calendar baseCalendar = Calendar.getInstance();
         final int year = baseCalendar.get(Calendar.YEAR);
@@ -134,12 +139,20 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {
-                calendar.set(year, monthOfyear, dayOfMonth);
+                if(val == START){
+                    calendarStart.clear();
+                    calendarStart.set(year, monthOfyear, dayOfMonth, 0, 0, 0);
+                } else if( val == END){
+                    calendarEnd.clear();
+                    calendarEnd.set(year, monthOfyear, dayOfMonth, 23, 59, 59);
+                }
+                mMeetingList.clear();
+                mMeetingList.addAll(mMeetingApiService.getDisplayMeetingWithDate(calendarStart, calendarEnd));
+                mMeetingAdapter.notifyDataSetChanged();
             }
         }, year, month, day);
 
         datePickerDialog.show();
-        return calendar;
     }
 
 
