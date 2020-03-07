@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
         configureToolbar();
 
         calendarEnd.add(Calendar.YEAR, 1);
+        calendarStart.add(Calendar.YEAR, -1);
 
         /** Initier ApiService */
         mMeetingApiService = DI.getMeetingApiService();
@@ -84,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
 
     @Override
     public void onButtonClicked(View view) {
-        //Notify the adapter for refresh the list
+        mMeetingList.clear();
+        mMeetingList.addAll(mMeetingApiService.getMeetings());
         mMeetingAdapter.notifyDataSetChanged();
     }
 
