@@ -117,14 +117,18 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
     public boolean onOptionsItemSelected(MenuItem item) {
         //3 - Handle actions on menu items
         switch (item.getItemId()) {
-            case R.id.menu_activity_main_params:
-                //Action
-                return true;
             case R.id.menu_debut:
                 createDatePicker(START);
                 return true;
             case R.id.menu_fin:
                 createDatePicker(END);
+                return true;
+            case R.id.menu_reinitialiser:
+                calendarEnd.add(Calendar.YEAR, 1);
+                calendarStart.add(Calendar.YEAR, -1);
+                mMeetingList.clear();
+                mMeetingList.addAll(mMeetingApiService.getMeetings());
+                mMeetingAdapter.notifyDataSetChanged();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

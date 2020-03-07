@@ -17,6 +17,8 @@
         app:titleTextAppearance="@style/Toolbar.TitleText"
         android:background="?attr/colorPrimary" />
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/meeting_recyclerview"
         android:layout_width="match_parent"
