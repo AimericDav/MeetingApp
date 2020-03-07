@@ -42,7 +42,7 @@ public class CreateMeeting extends DialogFragment implements View.OnClickListene
 
     private Button buttonLocation;
 
-    private Button createButton;
+    private ImageView createButton;
 
     private EditText nameEditText;
 
