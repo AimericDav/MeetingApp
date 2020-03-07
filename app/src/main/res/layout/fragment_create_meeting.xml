@@ -112,9 +112,7 @@
                 app:layout_constraintLeft_toRightOf="@id/participant_editText"
                 app:layout_constraintTop_toTopOf="@id/participant_logo"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
                 />
 
             <ImageView
