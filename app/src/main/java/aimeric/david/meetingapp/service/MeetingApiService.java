@@ -18,5 +18,4 @@ public interface MeetingApiService {
 
     List<Meeting> getDisplayMeetingWithDate(Calendar calendarStart, Calendar calendarEnd);
 
-
 }

@@ -38,6 +38,4 @@ public class DummyMeetingApiService implements MeetingApiService {
         }
         return meetingListTemp;
     }
-
-
 }

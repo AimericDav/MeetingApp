@@ -6,6 +6,8 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 import aimeric.david.meetingapp.DI.DI;
@@ -24,14 +28,19 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Aimeric on 14/02/2020.
  */
-public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingViewHolder>{
+public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingViewHolder> implements Filterable {
 
     List<Meeting> mMeetingList;
+    List<Meeting> mMeetingListAll;
+
     MeetingApiService mApiService = DI.getMeetingApiService();
 
     Meeting mMeeting;
 
     Listener callback;
+
+
+
     public interface Listener {
         void onClickDelete(Meeting meeting);
     }
@@ -53,6 +62,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingV
     public MeetingAdapter(List<Meeting> meetingList, Listener callback) {
         this.mMeetingList = meetingList;
         this.callback = callback;
+        this.mMeetingListAll = new ArrayList<>(meetingList);
     }
 
     @Override
@@ -82,5 +92,38 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingV
     public int getItemCount() {
         return mMeetingList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+
+            List<Meeting> filterList = new ArrayList<>();
+
+            if(charSequence.toString().isEmpty()){
+                filterList.addAll(mMeetingListAll);
+            }else{
+                for(Meeting meeting : mMeetingListAll){
+                    if(meeting.getLocation().toLowerCase().contains(charSequence.toString().toLowerCase())){
+                        filterList.add(meeting);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filterList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            mMeetingList.clear();
+            mMeetingList.addAll((Collection<? extends Meeting>) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 
 }

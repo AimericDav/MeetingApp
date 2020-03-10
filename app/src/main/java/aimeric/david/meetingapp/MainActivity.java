@@ -12,7 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
             }
         });
 
+
     }
 
     @Override
@@ -103,6 +106,20 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
     public boolean onCreateOptionsMenu(Menu menu) {
         //2 - Inflate the menu and add it to the Toolbar
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+        MenuItem itemSearch = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) itemSearch.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                mMeetingAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
         return true;
     }
 
