@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import aimeric.david.meetingapp.DI.DI;
 import aimeric.david.meetingapp.Meeting;
 
 /**

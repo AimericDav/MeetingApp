@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
         /** Initier ApiService */
         mMeetingApiService = DI.getMeetingApiService();
         mMeetingList = mMeetingApiService.getMeetings();
-        mMeetingList.get(0).getEmail().add("david.aimeric@outlook.fr");
-        mMeetingList.get(0).getEmail().add("marie.dore18072001@gmail.com");
 
         /** Initier RecyclerView */
         mRecyclerView = findViewById(R.id.meeting_recyclerview);
@@ -104,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements CreateMeeting.OnB
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //2 - Inflate the menu and add it to the Toolbar
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
         MenuItem itemSearch = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) itemSearch.getActionView();
