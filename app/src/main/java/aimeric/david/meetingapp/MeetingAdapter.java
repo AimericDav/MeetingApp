@@ -31,7 +31,6 @@ import de.greenrobot.event.EventBus;
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingViewHolder> implements Filterable {
 
     List<Meeting> mMeetingList;
-    List<Meeting> mMeetingListAll;
 
     MeetingApiService mApiService = DI.getMeetingApiService();
 
@@ -62,7 +61,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingV
     public MeetingAdapter(List<Meeting> meetingList, Listener callback) {
         this.mMeetingList = meetingList;
         this.callback = callback;
-        this.mMeetingListAll = new ArrayList<>(meetingList);
     }
 
     @Override
@@ -101,6 +99,8 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MeetingV
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
+
+           List<Meeting> mMeetingListAll = mApiService.getMeetings();
 
             List<Meeting> filterList = new ArrayList<>();
 

@@ -15,18 +15,18 @@ import static org.junit.Assert.assertTrue;
 
 public class MeetingServiceTest {
 
-    MeetingApiService apiService = DI.getMeetingApiService();
+    MeetingApiService apiService = DI.getNewInstanceApiService();
 
     private static Calendar calendar = Calendar.getInstance();
     private static List<String> emails = new ArrayList<>();
 
     @Test
-    public void getMeetingsWithSucces(){
+    public void getMeetingsIsEmpty(){
         assertTrue(apiService.getMeetings().isEmpty());
     }
 
     @Test
-    public void addMeetingsWithSucces(){
+    public void addOnGetMeetingsWithSucces(){
         assertTrue(apiService.getMeetings().isEmpty());
         Meeting meeting_1 = new Meeting("Réunion A","Salle A", emails, calendar);
         Meeting meeting_2 = new Meeting("Réunion B","Salle B", emails, calendar);

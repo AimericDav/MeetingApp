@@ -14,7 +14,7 @@ import aimeric.david.meetingapp.Meeting;
  */
 public class DummyMeetingApiService implements MeetingApiService {
 
-        private List<Meeting> meetings = DummyGeneratorMeeting.generateMeetings();
+        private List<Meeting> meetings = new ArrayList<>();
 
     @Override
     public List<Meeting> getMeetings() {
