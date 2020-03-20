@@ -18,14 +18,18 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static aimeric.david.meetingapp.RecyclerViewItemCountAssertion.withItemCount;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
+import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -47,6 +51,9 @@ public class MeetingTest {
 
     @Test
     public void meetingAddTest() {
+
+        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(0));
+
         onView(allOf(withId(R.id.add_button), isDisplayed())).perform(click());
 
         onView(allOf(withId(R.id.intitule_editText), isDisplayed()))
@@ -82,7 +89,90 @@ public class MeetingTest {
         onView(allOf(withId(R.id.create_button), isDisplayed()))
                 .perform(click());
 
-        onView(allOf(withId(R.id.meeting_recyclerview), isDisplayed())).check();
+        onView(allOf(withId(R.id.meeting_recyclerview), isDisplayed())).check(withItemCount(1));
+
+    }
+
+    @Test
+    public void meetingDeleteTest() {
+
+        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(0));
+
+        onView(allOf(withId(R.id.add_button), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.create_button), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(1));
+
+        onView(allOf(withId(R.id.trash), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(0));
+
+    }
+
+    @Test
+    public void meetingFilterTest() {
+
+        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(0));
+
+        onView(allOf(withId(R.id.add_button), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.create_button), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(1));
+
+        onView(allOf(withContentDescription("More options"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.title), withText("Début"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(android.R.id.button1), withText("OK")))
+                .perform(scrollTo(), click());
+
+        onView(allOf(withContentDescription("More options"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.title), withText("Fin"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(android.R.id.button1), withText("OK")))
+                .perform(scrollTo(), click());
+
+        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(1));
+
+        onView(allOf(withContentDescription("More options"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.title), withText("Début"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(android.R.id.button1), withText("OK")))
+                .perform(scrollTo(), click());
+
+        onView(allOf(withContentDescription("More options"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.title), withText("Fin"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(android.R.id.button1), withText("OK")))
+                .perform(scrollTo(), click());
+
+        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(0));
+
+        onView(allOf(withContentDescription("More options"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.title), withText("Réinitialiser"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(1));
 
     }
 
