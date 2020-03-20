@@ -1,8 +1,5 @@
 package aimeric.david.meetingapp;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
 import aimeric.david.meetingapp.DI.DI;
 import aimeric.david.meetingapp.service.MeetingApiService;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by Aimeric on 14/02/2020.

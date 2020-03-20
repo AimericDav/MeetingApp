@@ -1,22 +1,20 @@
 package aimeric.david.meetingapp;
 
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
+import android.widget.DatePicker;
 
-import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.contrib.PickerActions;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import aimeric.david.meetingapp.DI.DI;
+import aimeric.david.meetingapp.service.MeetingApiService;
 
 import static aimeric.david.meetingapp.RecyclerViewItemCountAssertion.withItemCount;
 import static androidx.test.espresso.Espresso.onView;
@@ -24,21 +22,22 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
-import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class MeetingTest {
+
+    private MeetingApiService service = DI.getMeetingApiService();
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -52,7 +51,7 @@ public class MeetingTest {
     @Test
     public void meetingAddTest() {
 
-        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(0));
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(0));
 
         onView(allOf(withId(R.id.add_button), isDisplayed())).perform(click());
 
@@ -96,41 +95,35 @@ public class MeetingTest {
     @Test
     public void meetingDeleteTest() {
 
-        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(0));
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(0));
 
-        onView(allOf(withId(R.id.add_button), isDisplayed()))
-                .perform(click());
+        newMeeting(2020, 3, 20);
 
-        onView(allOf(withId(R.id.create_button), isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(1));
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(1));
 
         onView(allOf(withId(R.id.trash), isDisplayed()))
                 .perform(click());
 
-        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(0));
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(0));
 
     }
 
     @Test
     public void meetingFilterTest() {
 
-        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(0));
+        newMeeting(2020, 3, 20);
+        newMeeting(2020, 3, 25);
 
-        onView(allOf(withId(R.id.add_button), isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withId(R.id.create_button), isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(1));
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(2));
 
         onView(allOf(withContentDescription("More options"), isDisplayed()))
                 .perform(click());
 
         onView(allOf(withId(R.id.title), withText("Début"), isDisplayed()))
                 .perform(click());
+
+        onView(withClassName(equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(2020, 3, 18));
 
         onView(allOf(withId(android.R.id.button1), withText("OK")))
                 .perform(scrollTo(), click());
@@ -141,30 +134,13 @@ public class MeetingTest {
         onView(allOf(withId(R.id.title), withText("Fin"), isDisplayed()))
                 .perform(click());
 
-        onView(allOf(withId(android.R.id.button1), withText("OK")))
-                .perform(scrollTo(), click());
-
-        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(1));
-
-        onView(allOf(withContentDescription("More options"), isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withId(R.id.title), withText("Début"), isDisplayed()))
-                .perform(click());
+        onView(withClassName(equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(2020, 3, 22));
 
         onView(allOf(withId(android.R.id.button1), withText("OK")))
                 .perform(scrollTo(), click());
 
-        onView(allOf(withContentDescription("More options"), isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withId(R.id.title), withText("Fin"), isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withId(android.R.id.button1), withText("OK")))
-                .perform(scrollTo(), click());
-
-        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(0));
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(1));
 
         onView(allOf(withContentDescription("More options"), isDisplayed()))
                 .perform(click());
@@ -172,7 +148,28 @@ public class MeetingTest {
         onView(allOf(withId(R.id.title), withText("Réinitialiser"), isDisplayed()))
                 .perform(click());
 
-        onView(allOf(withId(R.id.meeting_recyclerview))).check(withItemCount(1));
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(2));
+
+    }
+
+    private void newMeeting(int year, int month, int day){
+
+        onView(allOf(withId(R.id.add_button), isDisplayed())).perform(click());
+
+        onView(allOf(withId(R.id.add_email), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.date_button), isDisplayed()))
+                .perform(click());
+
+        onView(withClassName(equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(year, month, day));
+
+        onView(allOf(withId(android.R.id.button1), withText("OK")))
+                .perform(scrollTo(), click());
+
+        onView(allOf(withId(R.id.create_button), isDisplayed()))
+                .perform(click());
 
     }
 
