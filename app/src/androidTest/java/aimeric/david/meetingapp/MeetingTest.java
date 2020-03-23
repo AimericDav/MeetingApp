@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -46,6 +47,13 @@ public class MeetingTest {
     public void setUp() {
         MainActivity mActivity = mActivityTestRule.getActivity();
         assertThat(mActivity, notNullValue());
+    }
+
+    @After
+    public void cleanMeeting(){
+        for(Meeting meeting : service.getMeetings()){
+            service.deleteMeeting(meeting);
+        }
     }
 
     @Test
