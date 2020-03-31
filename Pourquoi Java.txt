@@ -1,0 +1,3 @@
+Pourquoi j’ai choisi JAVA ?
+Tout simplement pour sa communauté qui est énorme car il est présent depuis pas mal d’années maintenant. 
+Qui dit présent depuis longtemps, dit grosse documentation. Pas besoin de bidouiller pendant des années pour trouver la réponse à nos questions.
