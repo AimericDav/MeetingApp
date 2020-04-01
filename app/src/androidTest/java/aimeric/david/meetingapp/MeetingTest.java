@@ -187,13 +187,12 @@ public class MeetingTest {
         onView(allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), withText("Salle A"), isDisplayed()))
                 .perform(pressImeActionButton());
 
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(1));
+
         onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageView")), withContentDescription("Clear query"), isDisplayed()))
                 .perform(click());
 
-        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(1));
-
-        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageView")), withContentDescription("Search"), isDisplayed()))
-                .perform(click());
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(3));
 
         onView(allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), isDisplayed()))
                 .perform(replaceText("Salle H"), closeSoftKeyboard());
@@ -203,14 +202,21 @@ public class MeetingTest {
 
         onView(withId(R.id.meeting_recyclerview)).check(withItemCount(0));
 
-        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageView")), withContentDescription("Search"), isDisplayed()))
+        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageView")), withContentDescription("Clear query"), isDisplayed()))
                 .perform(click());
+
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(3));
 
         onView(allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), isDisplayed()))
                 .perform(replaceText("Salle"), closeSoftKeyboard());
 
         onView(allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), withText("Salle"), isDisplayed()))
                 .perform(pressImeActionButton());
+
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(3));
+
+        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageView")), withContentDescription("Clear query"), isDisplayed()))
+                .perform(click());
 
         onView(withId(R.id.meeting_recyclerview)).check(withItemCount(3));
 
