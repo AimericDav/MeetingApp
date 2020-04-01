@@ -1,13 +1,21 @@
 package aimeric.david.meetingapp;
 
 
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.DatePicker;
 
+import androidx.test.espresso.DataInteraction;
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -18,9 +26,11 @@ import aimeric.david.meetingapp.DI.DI;
 import aimeric.david.meetingapp.service.MeetingApiService;
 
 import static aimeric.david.meetingapp.RecyclerViewItemCountAssertion.withItemCount;
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
@@ -30,6 +40,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -105,7 +116,7 @@ public class MeetingTest {
 
         onView(withId(R.id.meeting_recyclerview)).check(withItemCount(0));
 
-        newMeeting(2020, 3, 20);
+        newMeeting(2020, 3, 20,0 );
 
         onView(withId(R.id.meeting_recyclerview)).check(withItemCount(1));
 
@@ -119,8 +130,8 @@ public class MeetingTest {
     @Test
     public void meetingFilterTest() {
 
-        newMeeting(2020, 3, 20);
-        newMeeting(2020, 3, 25);
+        newMeeting(2020, 3, 20, 0);
+        newMeeting(2020, 3, 25, 0);
 
         onView(withId(R.id.meeting_recyclerview)).check(withItemCount(2));
 
@@ -160,7 +171,53 @@ public class MeetingTest {
 
     }
 
-    private void newMeeting(int year, int month, int day){
+    @Test
+    public void filterInstruTest() {
+
+        newMeeting(2020, 03, 17, 0);
+        newMeeting(2020, 03, 17, 1);
+        newMeeting(2020, 03, 17, 2);
+
+        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageView")), withContentDescription("Search"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), isDisplayed()))
+                .perform(replaceText("Salle A"), closeSoftKeyboard());
+
+        onView(allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), withText("Salle A"), isDisplayed()))
+                .perform(pressImeActionButton());
+
+        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageView")), withContentDescription("Clear query"), isDisplayed()))
+                .perform(click());
+
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(1));
+
+        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageView")), withContentDescription("Search"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), isDisplayed()))
+                .perform(replaceText("Salle H"), closeSoftKeyboard());
+
+        onView(allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), withText("Salle H"), isDisplayed()))
+                .perform(pressImeActionButton());
+
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(0));
+
+        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageView")), withContentDescription("Search"), isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), isDisplayed()))
+                .perform(replaceText("Salle"), closeSoftKeyboard());
+
+        onView(allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), withText("Salle"), isDisplayed()))
+                .perform(pressImeActionButton());
+
+        onView(withId(R.id.meeting_recyclerview)).check(withItemCount(3));
+
+
+    }
+
+    private void newMeeting(int year, int month, int day, int location){
 
         onView(allOf(withId(R.id.add_button), isDisplayed())).perform(click());
 
@@ -176,9 +233,40 @@ public class MeetingTest {
         onView(allOf(withId(android.R.id.button1), withText("OK")))
                 .perform(scrollTo(), click());
 
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.location_button), isDisplayed()))
+                .perform(click());
+
+        DataInteraction appCompatTextView = onData(anything())
+                .inAdapterView(allOf(withClassName(is("com.android.internal.app.AlertController$RecycleListView")),
+                        childAtPosition(
+                                withClassName(is("android.widget.FrameLayout")),
+                                0)))
+                .atPosition(location);
+        appCompatTextView.perform(click());
+
         onView(allOf(withId(R.id.create_button), isDisplayed()))
                 .perform(click());
 
+    }
+
+    private static Matcher<View> childAtPosition(
+            final Matcher<View> parentMatcher, final int position) {
+
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Child at position " + position + " in parent ");
+                parentMatcher.describeTo(description);
+            }
+
+            @Override
+            public boolean matchesSafely(View view) {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+                        && view.equals(((ViewGroup) parent).getChildAt(position));
+            }
+        };
     }
 
 }

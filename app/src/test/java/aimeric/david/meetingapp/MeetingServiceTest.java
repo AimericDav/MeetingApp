@@ -1,6 +1,8 @@
 package aimeric.david.meetingapp;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(RobolectricTestRunner.class)
 public class MeetingServiceTest {
 
     MeetingApiService apiService = DI.getNewInstanceApiService();
@@ -87,6 +90,32 @@ public class MeetingServiceTest {
         assertTrue(meetingsCalendar.contains(meeting_1));
         assertFalse(meetingsCalendar.contains(meeting_2));
         assertFalse(meetingsCalendar.contains(meeting_3));
+    }
+
+    @Test
+    public void testFilter(){
+
+        MeetingApiService service = DI.getMeetingApiService();
+
+        Meeting meeting_1 = new Meeting("Réunion A","Salle A", emails, calendar);
+        Meeting meeting_2 = new Meeting("Réunion A","Salle B", emails, calendar);
+        Meeting meeting_3 = new Meeting("Réunion A","Salle C", emails, calendar);
+
+        service.addMeeting(meeting_1);
+        service.addMeeting(meeting_2);
+        service.addMeeting(meeting_3);
+
+        MeetingAdapter meetingAdapter = new MeetingAdapter(service.getMeetings(), null);
+        assertEquals(3, meetingAdapter.getItemCount());
+
+        meetingAdapter.getFilter().filter("Salle A");
+        assertEquals(1, meetingAdapter.getItemCount());
+        meetingAdapter.getFilter().filter("Salle B");
+        assertEquals(1, meetingAdapter.getItemCount());
+        meetingAdapter.getFilter().filter("Salle");
+        assertEquals(3, meetingAdapter.getItemCount());
+        meetingAdapter.getFilter().filter("Salle D");
+        assertEquals(0, meetingAdapter.getItemCount());
     }
 
 }
